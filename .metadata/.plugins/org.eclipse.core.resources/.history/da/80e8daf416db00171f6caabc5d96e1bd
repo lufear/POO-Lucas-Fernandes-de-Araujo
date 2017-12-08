@@ -1,0 +1,152 @@
+package View;
+
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+import DAO.ClienteDAO;
+import Model.ModelCliente;
+
+
+
+public class EditarCliente extends JFrame {
+
+	private DefaultTableModel modelo = new DefaultTableModel();
+	private JPanel painelFundo;
+	private JButton btSalvar;
+	private JButton btLimpar;
+	private JLabel lbNome;
+	private JLabel lbCPF;
+	private JLabel lbTel;
+	private JLabel lbEmail;
+	private JLabel lbCidade;
+	private JLabel lbCEP;
+	private JLabel lbLogin;
+	private JLabel lbSenha;	
+	private JLabel lbId;
+	private JTextField txNome;
+	private JTextField txCPF;
+	private JTextField txTel;
+	private JTextField txEmail;
+	private JTextField txCidade;
+	private JTextField txCEP;
+	private JTextField txLogin;
+	private JTextField txSenha;
+	private JTextField txId;
+	ModelCliente cliente;
+	private int linhaSelecionada;
+
+	public EditarCliente(DefaultTableModel md, int idCliente, int linha) {
+		super("Clientes");
+		criaJanela();
+		modelo = md;
+		ClienteDAO cliDao = new ClienteDAO();
+		cliente = cliDao.getClienteById(idCliente);
+		txId.setText(Integer.toString(cliente.getIdCliente()));
+		txNome.setText(cliente.getNome());
+		txCPF.setText(cliente.getCPF());
+		txTel.setText(cliente.getTel());
+		txEmail.setText(cliente.getEmail());
+		txCidade.setText(cliente.getCidade());
+		txCEP.setText(cliente.getCEP());
+		linhaSelecionada = linha;  
+	}
+
+	public void criaJanela() {
+		btSalvar = new JButton("Salvar");
+		btLimpar = new JButton("Limpar");
+		lbNome = new JLabel("         Nome.:   ");
+		lbCPF = new JLabel("         CPF.:   ");
+		lbTel = new JLabel("         Tel.:   ");
+		lbEmail = new JLabel("         Email.:   ");
+		lbCidade = new JLabel("         Cidade.:   ");
+		lbCEP = new JLabel("         CEP.:   ");
+		lbLogin = new JLabel("         Login.:   ");
+		lbSenha = new JLabel("         Senha.:   ");
+		lbId = new JLabel("         Id.:   ");
+		txNome= new JTextField();
+		txCPF= new JTextField();
+		txTel= new JTextField();
+		txEmail= new JTextField();
+		txCidade= new JTextField();
+		txCEP= new JTextField();
+		txLogin = new JTextField();
+		txSenha = new JTextField();
+		txId= new JTextField();
+		txId.setEditable(false);
+		
+		painelFundo = new JPanel();
+		painelFundo.setLayout(new GridLayout(11, 2, 2, 4));
+		painelFundo.add(lbId);
+		painelFundo.add(txId);
+		painelFundo.add(lbNome);
+		painelFundo.add(txNome);
+		painelFundo.add(lbCPF);
+		painelFundo.add(txCPF);
+		painelFundo.add(lbTel);
+		painelFundo.add(txTel);
+		painelFundo.add(lbEmail);
+		painelFundo.add(txEmail);
+		painelFundo.add(lbCidade);
+		painelFundo.add(txCidade);
+		painelFundo.add(lbCEP);
+		painelFundo.add(txCEP);
+		painelFundo.add(lbLogin);
+		painelFundo.add(txLogin);
+		painelFundo.add(lbSenha);
+		painelFundo.add(txSenha);
+		painelFundo.add(btLimpar);
+		painelFundo.add(btSalvar);
+
+		getContentPane().add(painelFundo);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setSize(600, 300);
+		setVisible(true);
+
+		btSalvar.addActionListener(new EditarCliente.BtSalvarListener());
+		btLimpar.addActionListener(new EditarCliente.BtLimparListener());
+	}
+
+	private class BtSalvarListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			ModelCliente cli = new ModelCliente();
+			cli.setIdCliente(Integer.parseInt(txId.getText()));
+			cli.setCPF(txCPF.getText());
+			cli.setTel(txTel.getText());
+			cli.setNome(txNome.getText());
+			cli.setEmail(txEmail.getText());
+			cli.setCidade(txCidade.getText());
+			cli.setCEP(txCEP.getText());
+			cli.setLogin(txLogin.getText());
+			cli.setSenha(txSenha.getText());
+
+			ClienteDAO cliDao = new ClienteDAO();
+			cliDao.atualizar(cli);
+			modelo.removeRow(linhaSelecionada);
+			modelo.addRow(new Object[]{cli.getIdCliente(), cli.getNome(), cli.getCPF(), cli.getTel(), cli.getEmail(), cli.getCidade(), cli.getCEP(), cli.getLogin(), cli.getSenha()});
+			setVisible(true);
+		}
+	}
+
+	private class BtLimparListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			txNome.setText("");
+			txCPF.setText("");
+			txCidade.setText("");
+			txCEP.setText("");
+			txTel.setText("");
+			txEmail.setText("");
+			txLogin.setText("");
+			txSenha.setText("");
+		}
+	}
+}

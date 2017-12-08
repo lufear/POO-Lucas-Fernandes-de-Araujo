@@ -1,0 +1,73 @@
+package DAO;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
+
+public class LoginDAO {
+	public boolean login(String login, String senha){
+		boolean tipo=false;
+		if(login !=null || senha !=null){
+			
+		
+		Connection conn = null;
+		
+		try {
+			PreparedStatement pstm = null;
+			ResultSet rs = null;
+			conn = Conexao.getConexao();
+	        pstm=conn.prepareStatement("select * from tbFuncionario where loginFuncionario like '"+ login+"' and senhaFuncionario like '"+ senha +"'");
+	        rs=pstm.executeQuery();
+
+
+            if(rs.first()){
+             JOptionPane.showMessageDialog(null,"Login Efetuado com Sucesso!");
+             tipo=true;
+            }                
+            else{
+            	try {
+        			conn = Conexao.getConexao();
+        	        pstm=conn.prepareStatement("select * from tbCliente where loginCliente like '"+ login+"' and senhaCliente like '"+ senha +"'");
+        	        rs=pstm.executeQuery();
+
+
+                    if(rs.first()){
+                     JOptionPane.showMessageDialog(null,"Login Efetuado com Sucesso!");
+                     tipo=false;
+                    }
+                    else{
+            	
+                    	JOptionPane.showMessageDialog(null, "Dados incoretos.");
+                 
+                    }
+
+                }
+
+                catch (SQLException erro)
+                {
+                	Conexao.fechaConexao(conn, pstm);
+                }
+
+    			}
+		}
+		catch (Exception e) {
+    				JOptionPane.showMessageDialog(null, "Erro ao Efetuar Login " + e.getMessage());
+    			}
+    		}
+				else {
+					System.out.println("Login ou senha enviado por parâmetro está vazio");
+				}
+    		
+		return tipo;
+	}
+	
+}
+		
+
+          
+      
+
+

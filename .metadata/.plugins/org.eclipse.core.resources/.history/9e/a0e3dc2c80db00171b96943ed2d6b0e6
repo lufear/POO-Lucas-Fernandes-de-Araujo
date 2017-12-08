@@ -1,0 +1,221 @@
+package View;
+import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
+
+
+
+	public class MenuFuncionario extends JFrame{
+
+		JMenuBar barra = new JMenuBar();
+		
+		
+		JMenu cadastros = new JMenu("Cadastros");
+		JMenu consultas = new JMenu("Consultas");
+		JMenu outros = new JMenu("Outros");
+		
+		
+		JMenuItem telaInicial = new JMenuItem("Inicio");
+		JMenuItem cadFuncionario = new JMenuItem("Cadastro de Funcionário");
+		JMenuItem cadGame = new JMenuItem("Cadastro de Game");	
+		JMenuItem cadCliente = new JMenuItem("Cadastro de Cliente");	
+		JMenuItem conFuncionario = new JMenuItem("Consulta de Funcionário");
+		JMenuItem conGame = new JMenuItem("Consulta de Game");	
+		JMenuItem conCliente = new JMenuItem("Consulta de Cliente");	
+		JMenuItem sair = new JMenuItem("Sair");
+		
+		
+		
+		
+		public MenuFuncionario(){
+			
+			setTitle("SuperGames");
+			setResizable(false);
+			Container janela = this.getContentPane();
+			setSize(600, 400);
+			setLocationRelativeTo(janela);
+			
+			this.setJMenuBar(barra);
+			barra.add(cadastros);
+			
+			cadastros.add(cadFuncionario);
+			cadastros.add(cadGame);
+			cadastros.add(cadCliente);		
+			
+			
+			barra.add(consultas);
+			consultas.add(conFuncionario);
+			consultas.add(conGame);
+			consultas.add(conCliente);	
+			
+			barra.add(outros);
+			outros.add(telaInicial);
+			outros.add(sair);
+			
+			
+			
+			
+			
+			
+			
+			Inicial in = new Inicial();
+			telaInicial.addActionListener(in);
+					
+			CadFunc cfu = new CadFunc();
+			cadFuncionario.addActionListener(cfu);
+			
+			CadGame cag = new CadGame();
+			cadGame.addActionListener(cag);
+			
+			CadCli cac = new CadCli();
+			cadCliente.addActionListener(cac);
+			
+			ConFunc cof = new ConFunc();
+			conFuncionario.addActionListener(cof);
+			
+			ConGame cog = new ConGame();
+			conGame.addActionListener(cog);
+			
+			ConCli coc = new ConCli();
+			conCliente.addActionListener(coc);
+			
+			fechar f = new fechar();
+			sair.addActionListener(f);
+		
+			
+			this.setVisible(true);
+		}
+		
+		
+		
+		
+		
+		private class Inicial implements ActionListener{
+
+			public void actionPerformed(ActionEvent arg0) {
+				
+				getContentPane().removeAll();
+				TelaInicial tela = new TelaInicial();
+				tela.setSize(600,400);
+				add(tela);
+				getContentPane().repaint();
+				getContentPane().revalidate();
+				
+				
+			}
+			
+		}
+		
+		
+		
+		private class CadFunc implements ActionListener{
+
+			public void actionPerformed(ActionEvent arg0) {
+
+				getContentPane().removeAll();
+				CadastroFuncionario cadFunc=new CadastroFuncionario();
+		        cadFunc.setSize(600,400);   
+				getContentPane().repaint();
+				getContentPane().revalidate();
+				
+				
+			}
+			
+		}
+		
+		private class CadGame implements ActionListener{
+
+			public void actionPerformed(ActionEvent arg0) {
+
+				getContentPane().removeAll();
+				CadastroGame cadGame=new CadastroGame();
+		        cadGame.setSize(600,400);   
+				getContentPane().repaint();
+				getContentPane().revalidate();
+				
+				
+			}
+			
+		}
+		
+		private class CadCli implements ActionListener{
+
+			public void actionPerformed(ActionEvent arg0) {
+
+				getContentPane().removeAll();
+				CadastroCliente cadCli=new CadastroCliente();
+		        cadCli.setSize(600,400);   
+				getContentPane().repaint();
+				getContentPane().revalidate();
+				
+				
+			}
+			
+		}
+		
+		private class ConFunc implements ActionListener{
+
+			public void actionPerformed(ActionEvent arg0) {
+
+				getContentPane().removeAll();
+				ConsultaFuncionario conFunc=new ConsultaFuncionario();
+		        conFunc.setSize(600,400);   
+				getContentPane().repaint();
+				getContentPane().revalidate();
+				
+				
+			}
+			
+		}
+		
+		private class ConGame implements ActionListener{
+
+			public void actionPerformed(ActionEvent arg0) {
+
+				getContentPane().removeAll();
+				ConsultaGame conGame=new ConsultaGame();
+		        conGame.setSize(600,400);   
+				getContentPane().repaint();
+				getContentPane().revalidate();
+				
+				
+			}
+			
+		}
+		
+		private class ConCli implements ActionListener{
+
+			public void actionPerformed(ActionEvent arg0) {
+
+				getContentPane().removeAll();
+				ConsultaCliente conCli=new ConsultaCliente();
+		        conCli.setSize(600,400);   
+				getContentPane().repaint();
+				getContentPane().revalidate();
+				
+				
+			}
+			
+		}
+		
+		
+		
+		private class fechar implements ActionListener{
+
+			public void actionPerformed(ActionEvent arg0) {
+				
+				System.exit(0);		
+				
+			}
+			
+		}	
+		
+
+	}
+

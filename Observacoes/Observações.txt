@@ -1,0 +1,7 @@
+Em caso de incompatibilidade
+
+
+
+Versão do eclipse utilizada : Eclipse Luna
+
+Banco de dados : MySql Workbench 6.3 CE

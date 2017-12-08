@@ -1,0 +1,114 @@
+package DAO;
+
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import Model.ModelFuncionario;
+
+public class FuncionarioDAO {
+	
+private Connection conn ;
+	
+	public boolean cadastroFunc(ModelFuncionario funcionario) throws SQLException{
+		try {
+			conn = Conexao.getConexao();
+			PreparedStatement pstm = 
+					conn.prepareStatement("insert into tbFuncionario(nomeFuncionario, cpfFuncionario, loginFuncionario, senhaFuncionario) values (?,?,?,?)");
+			pstm.setString(1, funcionario.getNome());
+			pstm.setString(2, funcionario.getCPF());
+			pstm.setString(3, funcionario.getLogin());
+			pstm.setString(4, funcionario.getSenha());
+			pstm.execute();
+			Conexao.fechaConexao(conn,pstm);
+			JOptionPane.showMessageDialog(null,"Funcionario cadastrado com sucesso");
+			return true;
+		} catch (Exception e) {
+			System.out.println("ERRO: "+e.getMessage());
+			return false;
+		}
+		
+	}
+	
+	public void atualizar(ModelFuncionario funcionario) {
+		if (funcionario != null) { Connection conn = null;
+		
+			try {
+				conn = Conexao.getConexao();
+				PreparedStatement pstm =
+						conn.prepareStatement("update tbFuncionario set nomeFuncionario=?, cpfFuncionario=?, loginFuncionario=?, senhaFuncionario=?");
+				pstm.setString(1, funcionario.getNome());
+				pstm.setString(2, funcionario.getCPF());
+				pstm.setString(3, funcionario.getLogin());
+				pstm.setString(4, funcionario.getSenha());
+				pstm.execute();
+				JOptionPane.showMessageDialog(null, "Funcionario alterado com sucesso");
+				Conexao.fechaConexao(conn);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Erro ao atualizar funcionario no banco de" + "dados " + e.getMessage());
+				}
+		}
+			else {
+				JOptionPane.showMessageDialog(null, "O funcionario enviado por parâmetro está vazio");
+			}
+		}
+	
+	public void remover(ModelFuncionario funcionario) {
+		Connection conn = null;
+		try {
+			conn = Conexao.getConexao();
+			PreparedStatement pstm =
+					conn.prepareStatement("delete from tbFuncionario where cpfFuncionario=?");
+			pstm.setString(1, funcionario.getCPF());
+			pstm.execute();
+			Conexao.fechaConexao(conn, pstm);
+		}
+			catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Erro ao excluir contato do banco de" + "dados " + e.getMessage());
+			}
+		} 
+	
+	public List<ModelFuncionario> getFuncionarios() {
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		ArrayList<ModelFuncionario> funcionarios = new ArrayList<ModelFuncionario>();
+		try {
+			conn = Conexao.getConexao();
+			pstm = conn.prepareStatement("select nomeFuncionario, cpfFuncionario, loginFuncionario, senhaFuncionario from tbFuncionario");
+			rs = pstm.executeQuery();
+			while (rs.next()) { 
+				ModelFuncionario funcionario = new ModelFuncionario();
+				funcionario.setNome(rs.getString("nomeFuncionario"));
+				funcionario.setCPF(rs.getString("cpfFuncionario"));
+				funcionario.setLogin(rs.getString("loginFuncionario"));
+				funcionario.setSenha(rs.getString("senhaFuncionario"));
+				funcionarios.add(funcionario);
+			}
+			Conexao.fechaConexao(conn, pstm, rs);
+			}
+			catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Erro ao listar contatos" + e.getMessage());
+			}
+		return funcionarios;
+		}
+	
+	
+          
+      
+}
+	
+	
+		
+	
+
+		
+	
+
+

@@ -1,0 +1,18 @@
+package View;
+
+public class Snippet {
+	private BufferedImage img = null;    
+	    private int x = 0;  
+	    private int y = 0;  
+	    public FundoBg(String urlImg) throws IOException    {  
+	        this.img =  ImageIO.read(new File(urlImg));  
+	    }  
+	    @Override  
+	    public void paintComponent(Graphics g) {  
+	        super.paintComponent(g);        
+	        Graphics gr = (Graphics2D)g.create();  
+	        gr.drawImage(img, x, y,this.getWidth(),this.getHeight(),this);  
+	        gr.dispose();     
+	    }  
+}
+

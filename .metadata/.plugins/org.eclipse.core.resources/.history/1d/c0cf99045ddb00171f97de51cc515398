@@ -1,0 +1,117 @@
+package View;
+
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+
+import DAO.LoginDAO;
+
+
+public class Login extends JFrame {
+	
+	private JPanel painelFundo;
+	private JLabel lblLogin;
+	private JLabel lblSenha;
+	private JTextField txtLogin;
+	private JTextField txtSenha;
+	private JButton btEntrar;
+	private JButton btSair;
+	
+	public Login(){	
+		
+		this.setTitle("Login");
+		this.setSize(600,400);
+		this.setResizable(false);
+		
+		this.getContentPane().setBackground(new Color (255,255,255));
+		
+		Container janela = this.getContentPane();
+		setLocationRelativeTo(janela);
+		janela.setLayout(null);
+		
+
+		lblLogin = new JLabel();
+		lblLogin.setText("Login:");
+		lblLogin.setBounds(155,135,70,20);
+		this.add(lblLogin);
+		
+		lblSenha = new JLabel();
+		lblSenha.setText("Senha:");
+		lblSenha.setBounds(155,165,70,20);
+		this.add(lblSenha);
+		
+		txtLogin = new JTextField();
+		txtLogin.setBounds(270,135,100,20);
+		this.add(txtLogin);
+		
+		txtSenha = new JTextField();
+		txtSenha.setBounds(270,165,100,20);
+		this.add(txtSenha);
+		
+		
+			
+		btEntrar = new JButton();
+		btEntrar.setBounds(155,185,100,20);
+		btEntrar.setText("Entrar");
+		this.add(btEntrar);
+		
+		btSair= new JButton();
+		btSair.setText("Sair");
+		btSair.setBounds(270,185,100,20);
+		this.add(btSair);
+		
+
+		EventoEntrar eent = new EventoEntrar();
+		btEntrar.addActionListener(eent);
+		
+		EventoSair esair = new EventoSair();
+		btSair.addActionListener(esair);
+		
+				
+
+		this.setVisible(true);
+
+		
+		}
+	
+	private class EventoEntrar implements ActionListener {
+		
+
+		public void actionPerformed(ActionEvent e) {
+			
+			if(txtLogin.getText().equals("") || txtSenha.getText().equals("")){
+		        JOptionPane.showMessageDialog(null, "Login ou Senha inválido.");
+			}
+			else{
+	     	
+			LoginDAO log=new LoginDAO();
+			log.login(txtLogin.getText(), txtSenha.getText());
+			if(log.equals(true)){
+				new Menu();
+				
+			}
+			
+			}
+		}
+	}
+
+	private class EventoSair implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);
+		}
+	}
+
+}
+	
+

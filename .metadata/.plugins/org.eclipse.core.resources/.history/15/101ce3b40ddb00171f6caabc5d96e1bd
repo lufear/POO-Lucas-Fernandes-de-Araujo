@@ -1,0 +1,159 @@
+package DAO;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import Model.ModelCliente;
+
+
+public class ClienteDAO {
+	
+	private final String INSERT = "INSERT INTO tbCliente (cpfCliente, nomeCliente, telCliente, emailCliente, cepCliente, cidadeCliente, loginCliente, senhaCliente) values (?,?,?,?,?,?,?,?)";
+	private final String UPDATE = "UPDATE tbCliente SET cpfCliente =?, nomeCliente=?, telCliente=?, emailCliente=?, cepCliente=?, cidadeCliente=?, loginCliente=?, senhaCliente=? WHERE idCliente=?";
+	private final String DELETE = "DELETE FROM tbCliente WHERE idCliente =?";
+	private final String LIST = "SELECT cpfCliente, nomeCliente, telCliente, emailCliente, cepCliente, cidadeCliente FROM tbCliente";
+	private final String LISTBYID = "SELECT cpfCliente, nomeCliente, telCliente, emailCliente, cepCliente, cidadeCliente FROM tbCliente WHERE idCliente=?";
+	
+	public boolean cadastroCli(ModelCliente cliente) throws SQLException{
+		if (cliente != null) {
+			Connection conn = null;	
+			try {
+				conn = Conexao.getConexao();
+				PreparedStatement pstm = 
+						conn.prepareStatement(INSERT);
+				pstm.setString(1, cliente.getCPF());
+				pstm.setString(2, cliente.getNome());
+				pstm.setString(3, cliente.getTel());
+				pstm.setString(4, cliente.getEmail());
+				pstm.setString(5, cliente.getCEP());
+				pstm.setString(6, cliente.getCidade());
+				pstm.setString(7, cliente.getLogin());
+				pstm.setString(8, cliente.getSenha());
+				pstm.execute();
+				Conexao.fechaConexao(conn,pstm);
+				JOptionPane.showMessageDialog(null,"Cliente cadastrado com sucesso");
+				return true;
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Erro ao cadastrar cliente " + e.getMessage());
+				return false;
+			}
+		} else {
+			System.out.println("O cliente enviado por parâmetro está vazio");
+			return false;
+		}
+		
+	}
+		
+	
+	
+	public void atualizar(ModelCliente cliente) {
+		if (cliente != null) {
+			Connection conn = null;
+			try {
+				conn = Conexao.getConexao();
+				PreparedStatement pstm;
+				pstm = conn.prepareStatement(UPDATE);
+
+				pstm.setString(1, cliente.getCPF());
+				pstm.setString(2, cliente.getNome());
+				pstm.setString(3, cliente.getTel());
+				pstm.setString(4, cliente.getEmail());
+				pstm.setString(5, cliente.getCEP());
+				pstm.setString(6, cliente.getCidade());
+				pstm.setString(7, cliente.getLogin());
+				pstm.setString(8, cliente.getSenha());
+				pstm.setInt(9, cliente.getIdCliente());
+				
+
+				pstm.execute();
+				JOptionPane.showMessageDialog(null, "cliente alterado com sucesso");
+				Conexao.fechaConexao(conn);
+
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Erro ao atualizar cliente" + e.getMessage());
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "O cliente enviado por parâmetro está vazio");
+		}
+
+
+	}
+
+	public void remover(int idCliente) {
+		Connection conn = null;
+		try {
+			conn = Conexao.getConexao();
+			PreparedStatement pstm;
+			pstm = conn.prepareStatement(DELETE);
+
+			pstm.setInt(1, idCliente);
+
+			pstm.execute();
+			Conexao.fechaConexao(conn, pstm);
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Erro ao excluir cliente" + e.getMessage());
+		}
+	}
+
+	public List<ModelCliente> getClientes() {
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		ArrayList<ModelCliente> clientes = new ArrayList<ModelCliente>();
+		try {
+			conn = Conexao.getConexao();
+			pstm = conn.prepareStatement(LIST);
+			rs = pstm.executeQuery();
+			while (rs.next()) {
+				ModelCliente cliente = new ModelCliente();
+
+				
+				cliente.setCPF(rs.getString("cpfCliente"));
+				cliente.setNome(rs.getString("nomeCliente"));
+				cliente.setTel(rs.getString("telCliente"));
+				cliente.setEmail(rs.getString("emailCliente"));
+				cliente.setNome(rs.getString("cepCliente"));
+				cliente.setNome(rs.getString("cidadeCliente"));
+				cliente.setIdCliente(Integer.parseInt(rs.getString("idCliente")));
+				clientes.add(cliente);
+			}
+			Conexao.fechaConexao(conn, pstm, rs);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Erro ao listar clientes" + e.getMessage());
+		}
+		return clientes;
+	}
+
+	public ModelCliente getClienteById(int idCliente) {
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		ModelCliente cliente = new ModelCliente();
+		try {
+			conn = Conexao.getConexao();
+			pstm = conn.prepareStatement(LISTBYID);
+			pstm.setInt(1, idCliente);
+			rs = pstm.executeQuery();
+			while (rs.next()) {
+				cliente.setIdCliente(rs.getInt("idCliente"));
+				cliente.setCPF(rs.getString("cpfCliente"));
+				cliente.setNome(rs.getString("nomeCliente"));
+				cliente.setTel(rs.getString("telCliente"));
+				cliente.setEmail(rs.getString("emailCliente"));
+				cliente.setNome(rs.getString("cepCliente"));
+				cliente.setNome(rs.getString("cidadeCliente"));
+			}
+			Conexao.fechaConexao(conn, pstm, rs);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Erro ao listar clientes" + e.getMessage());
+		}
+		return cliente;
+	}
+}

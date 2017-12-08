@@ -1,0 +1,218 @@
+package View;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.text.ParseException;
+
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+
+
+
+
+import javax.swing.text.MaskFormatter;
+
+import Model.ModelCliente;
+import Controller.ControllerCliente;
+import DAO.ClienteDAO;
+
+
+public class CadastroCliente extends JFrame{
+	
+	
+
+	JLabel lblNome;
+	JLabel lblCPF;
+	JLabel lblTel;
+	JLabel lblEmail;
+	JLabel lblLogradouro;
+	JLabel lblN;
+	JLabel lblCidade;
+	JLabel lblCEP;
+	JLabel lblLogin;
+	JLabel lblSenha;
+	
+		
+	JTextField txtNome;
+	JTextField txtTel;
+	JTextField txtEmail;
+	JTextField txtLogradouro;
+	JTextField txtN;
+	JTextField txtCidade;
+	JTextField txtCEP;	
+	JTextField txtCPF;
+	JTextField txtLogin;
+	JTextField txtSenha;
+	
+	JFormattedTextField txtCPF;
+	
+	MaskFormatter mfCPF;
+	
+	
+	JButton btnCadastrar;
+	JButton btnCancelar;
+		
+	
+	
+	
+	public CadastroCliente(){
+		
+		this.setTitle("Cadastro de Cliente");
+		this.setSize(600,400);
+		this.setResizable(false);
+		
+		this.getContentPane().setBackground(new Color (255,255,255));
+		
+		Container janela = this.getContentPane();
+		setLocationRelativeTo(janela);
+		janela.setLayout(null);
+		
+		lblNome = new JLabel();
+		lblNome.setText("Nome:");
+		lblNome.setBounds(15,15,70,20);
+		this.add(lblNome);
+				
+		
+		lblCPF = new JLabel();
+		lblCPF.setText("CPF:");
+		lblCPF.setBounds(15,45,70,20);
+		this.add(lblCPF);
+		
+		lblTel = new JLabel();
+		lblTel.setText("Tel:");
+		lblTel.setBounds(15,75,70,20);
+		this.add(lblTel);
+		
+		lblEmail = new JLabel();
+		lblEmail.setText("Email:");
+		lblEmail.setBounds(15,105,70,20);
+		this.add(lblEmail);
+		
+		
+		lblCidade = new JLabel();
+		lblCidade.setText("Cidade:");
+		lblCidade.setBounds(15,135,70,20);
+		this.add(lblCidade);
+		
+		lblCEP = new JLabel();
+		lblCEP.setText("CEP:");
+		lblCEP.setBounds(195,135,70,20);
+		this.add(lblCEP);
+		
+		lblLogin = new JLabel();
+		lblLogin.setText("Login:");
+		lblLogin.setBounds(15,165,70,20);
+		this.add(lblLogin);
+		
+		lblSenha = new JLabel();
+		lblSenha.setText("Senha:");
+		lblSenha.setBounds(15,195,70,20);
+		this.add(lblSenha);
+				
+		
+		txtNome = new JTextField();
+		txtNome.setBounds(90,15,100,20);
+		this.add(txtNome);
+		
+		try{
+			
+			mfCPF = new MaskFormatter("###.###.###-##");
+			mfCPF.setPlaceholderCharacter('_');
+			
+			
+		}catch(ParseException excp){}	
+		
+		txtCPF = new JFormattedTextField(mfCPF);
+		txtCPF.setBounds(90,45,100,20);
+		this.add(txtCPF);
+		
+		txtTel = new JTextField();
+		txtTel.setBounds(90,75,100,20);
+		this.add(txtTel);
+		
+		txtEmail = new JTextField();
+		txtEmail.setBounds(90,105,100,20);
+		this.add(txtEmail);
+		
+		txtCidade = new JTextField();
+		txtCidade.setBounds(90,135,100,20);
+		this.add(txtCidade);
+		
+		txtCEP = new JTextField();
+		txtCEP.setBounds(225,135,100,20);
+		this.add(txtCEP);
+		
+		txtLogin = new JTextField();
+		txtLogin.setBounds(90,165,100,20);
+		this.add(txtLogin);
+		
+		txtSenha = new JTextField();
+		txtSenha.setBounds(90,195,100,20);
+		this.add(txtSenha);
+		
+		
+			
+		btnCadastrar = new JButton();
+		btnCadastrar.setBounds(185,275,100,20);
+		btnCadastrar.setText("Cadastrar");
+		this.add(btnCadastrar);
+		
+		btnCancelar= new JButton();
+		btnCancelar.setText("Cancelar");
+		btnCancelar.setBounds(450,300,120,20);
+		this.add(btnCancelar);
+		
+
+		EventoCadastrar ecad = new EventoCadastrar();
+		btnCadastrar.addActionListener(ecad);
+		
+		EventoCancelar ecan = new EventoCancelar();
+		btnCancelar.addActionListener(ecan);
+		
+				
+
+		this.setVisible(true);
+	}
+	
+	private class EventoCadastrar implements ActionListener{
+	
+
+		public void actionPerformed(ActionEvent arg0) {
+			
+			
+			ModelCliente cli = new ModelCliente();
+			cli.setCPF(txtCPF.getText());
+			cli.setTel(txtTel.getText());
+			cli.setNome(txtNome.getText());
+			cli.setEmail(txtEmail.getText());
+			cli.setCidade(txtCidade.getText());
+			cli.setCEP(txtCEP.getText());
+			cli.setLogin(txtLogin.getText());
+			cli.setSenha(txtSenha.getText());
+			
+			ControllerCliente cc = new ControllerCliente();
+			cc.cadastroCli();
+			
+			
+		}
+		
+	}
+	
+
+	private class EventoCancelar implements ActionListener{
+	
+		public void actionPerformed(ActionEvent arg0) {
+			
+			new TelaInicial();
+			dispose();
+			
+		}
+	}
+		}
+

@@ -1,0 +1,138 @@
+package View;
+
+import java.awt.Container;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import DAO.GameDAO;
+import Model.ModelGame;
+
+public class Login extends JFrame {
+	
+	private JPanel painelFundo;
+	private JLabel lblLogin;
+	private JLabel lblSenha;
+	private JTextField txtLogin;
+	private JTextField txtSenha;
+	private JButton btEntrar;
+	private JButton btSair;
+	
+	public void login(){
+		
+		setTitle("SuperGames");
+		setResizable(false);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		btEntrar = new JButton("Entrar");
+		btSair = new JButton("");
+		lblLogin = new JLabel("         Login:   ");
+		lblSenha = new JLabel("         Senha:   ");
+		txtLogin = new JTextField();
+		txtSenha = new JTextField();
+		
+		painelFundo = new JPanel();
+		painelFundo.setLayout(new GridLayout(4, 2, 2, 4));
+		painelFundo.add(lblLogin);
+		painelFundo.add(lblSenha);
+		painelFundo.add(txtLogin);
+		painelFundo.add(txtSenha);
+		painelFundo.add(btEntrar);
+		painelFundo.add(btSair);
+		
+		getContentPane().add(painelFundo);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setSize(300, 150);
+		setVisible(true);
+
+		btEntrar.addActionListener(new BtEntrarListener());
+		btSair.addActionListener(new BtSairListener());
+	}
+	private class BtEntrarListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			
+			if(txtLogin.getText().equals("") || txtSenha.getText().equals("")){
+		        JOptionPane.showMessageDialog(null, "Login ou Senha inválido.");
+			}
+			else{
+				try
+	               {
+
+	                String sql = "select * from usuario where user_nome like '"+ txtLogin.getText()+"' and user_senha like '"+ senha +"'";
+	                rs= ConexaoBD.getConexao().executeQuery(sql);// exexuta a varialvel sql acima
+
+
+	                   if(rs.first())// conecta e busca o primeiro registro igual e compara se for certo entra senao da erro no CATCH
+	                   {
+	                    JOptionPane.showMessageDialog(null,"Login Efetuado com Sucesso!");
+	                     controla = rs.getInt("TIPO_ACESSO"); 
+
+
+	                       if (controla==1) // TIPO DE ACESSO DO ADMINISTRADOR
+	                       {
+	                       new T_PRINCIPAL().setVisible(true);// chama o formulario principal ao conectar
+
+	                       T_PRINCIPAL.mnpesquisa.setVisible(false); //esconde os menus do professor
+	                       T_PRINCIPAL.mnrelatorio.setEnabled(false) ;
+
+	                       //   principal.menu_avaliacao.setVisible(false);
+	                     dispose();// fecha o formulario de login ao entrar no principal
+	                       }
+
+
+	                       else if (controla==2) // TIPO DE ACESSO DE PROFESSORES
+	                         { 
+	                             new T_PRINCIPAL().setVisible(true);// chama o formulario principal ao conectar
+
+	                             T_PRINCIPAL.mnpesquisa.setVisible(true); 
+	                             dispose();// fecha o formulario de login ao entrar no principal
+
+	                       } 
+	                   }
+	                   else{
+	                        JOptionPane.showMessageDialog(null, "Dados incoretos.");
+	                        loginTxt.requestFocus();
+	                       }
+
+	                       }
+
+	                       catch (SQLException erro)
+	                       {
+	                 JOptionPane.showMessageDialog(null, "Problemas de conexão com a base de dados");
+
+	               }
+	                 }
+	             }
+				
+			
+			ModelGame game = new ModelGame();
+			game.setIdGame(Integer.parseInt(txId.getText()));
+			game.setDescricao(txDescricao.getText());
+			game.setValor(txValor.getText());
+
+			GameDAO dao = new GameDAO();
+			dao.atualizar(game);
+			modelo.removeRow(linhaSelecionada);
+			modelo.addRow(new Object[]{game.getIdGame(), game.getDescricao(), game.getValor()});
+			setVisible(true);
+		}
+	}
+
+	private class BtSairListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);
+		}
+	}
+
+}
+	
+}

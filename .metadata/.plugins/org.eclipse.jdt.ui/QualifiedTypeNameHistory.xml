@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="View.ConsultaFuncionario"/>
+<fullyQualifiedTypeName name="javax.swing.JPanel"/>
+<fullyQualifiedTypeName name="Controller.ControllerCliente"/>
+<fullyQualifiedTypeName name="Model.ModelCliente"/>
+<fullyQualifiedTypeName name="DAO.ClienteDAO"/>
+<fullyQualifiedTypeName name="javax.swing.JFrame"/>
+<fullyQualifiedTypeName name="DAO.LoginDAO"/>
+<fullyQualifiedTypeName name="Controller.ControllerFuncionario"/>
+<fullyQualifiedTypeName name="Model.ModelFuncionario"/>
+<fullyQualifiedTypeName name="Model.ModelGame"/>
+<fullyQualifiedTypeName name="DAO.GameDAO"/>
+<fullyQualifiedTypeName name="Controller.ControllerGame"/>
+<fullyQualifiedTypeName name="java.sql.SQLException"/>
+<fullyQualifiedTypeName name="View.MenuFuncionario"/>
+<fullyQualifiedTypeName name="javax.swing.JPasswordField"/>
+<fullyQualifiedTypeName name="java.awt.Image"/>
+<fullyQualifiedTypeName name="javax.swing.JLabel"/>
+<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+</qualifiedTypeNameHistroy>

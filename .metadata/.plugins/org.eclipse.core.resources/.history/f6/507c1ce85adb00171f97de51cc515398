@@ -1,0 +1,88 @@
+package View;
+
+import java.awt.Container;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import DAO.GameDAO;
+import DAO.LoginDAO;
+import Model.ModelGame;
+
+public class Login extends JFrame {
+	
+	private JPanel painelFundo;
+	private JLabel lblLogin;
+	private JLabel lblSenha;
+	private JTextField txtLogin;
+	private JTextField txtSenha;
+	private JButton btEntrar;
+	private JButton btSair;
+	
+	public void login(){
+		
+		setTitle("SuperGames");
+		setResizable(false);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		btEntrar = new JButton("Entrar");
+		btSair = new JButton("");
+		lblLogin = new JLabel("         Login:   ");
+		lblSenha = new JLabel("         Senha:   ");
+		txtLogin = new JTextField();
+		txtSenha = new JTextField();
+		
+		painelFundo = new JPanel();
+		painelFundo.setLayout(new GridLayout(4, 2, 2, 4));
+		painelFundo.add(lblLogin);
+		painelFundo.add(lblSenha);
+		painelFundo.add(txtLogin);
+		painelFundo.add(txtSenha);
+		painelFundo.add(btEntrar);
+		painelFundo.add(btSair);
+		
+		getContentPane().add(painelFundo);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setSize(300, 150);
+		setVisible(true);
+
+		btEntrar.addActionListener(new BtEntrarListener());
+		btSair.addActionListener(new BtSairListener());
+	}
+	private class BtEntrarListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			
+			if(txtLogin.getText().equals("") || txtSenha.getText().equals("")){
+		        JOptionPane.showMessageDialog(null, "Login ou Senha inválido.");
+			}
+			else{
+	     	
+			LoginDAO log=new LoginDAO();
+			log.login(txtLogin.getText(), txtSenha.getText());
+			if(log.equals(true)){
+				new Menu();
+				
+			}
+			
+			}
+		}
+	}
+
+	private class BtSairListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);
+		}
+	}
+
+}
+	
+

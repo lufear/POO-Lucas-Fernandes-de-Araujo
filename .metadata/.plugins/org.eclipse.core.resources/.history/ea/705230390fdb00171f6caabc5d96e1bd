@@ -1,0 +1,21 @@
+package Controller;
+
+import java.sql.SQLException;
+
+import DAO.ClienteDAO;
+import Model.ModelCliente;
+
+public class ControllerCliente {
+	
+	public void cadastroCli(){
+		ModelCliente cli = new ModelCliente();
+		ClienteDAO cliDAO= new ClienteDAO();
+		try {
+			cliDAO.cadastroCli(cli);
+		} catch (SQLException e) {
+			System.out.println("Erro" + e.getMessage());
+		}
+	
+	}
+
+}

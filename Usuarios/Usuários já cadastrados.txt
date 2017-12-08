@@ -1,0 +1,8 @@
+Login: Admin (Funcionário)
+Senha: 123456
+
+Login: Admin2 (Funcionário)
+Senha: 123456
+
+Login: Cliente (Cliente)
+Senha: 123456

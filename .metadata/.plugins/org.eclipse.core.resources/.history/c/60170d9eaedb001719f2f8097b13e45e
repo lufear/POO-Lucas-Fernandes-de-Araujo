@@ -1,0 +1,22 @@
+package Controller;
+
+import java.sql.SQLException;
+
+import DAO.GameDAO;
+import Model.ModelGame;
+
+
+
+public class ControllerGame {
+	
+	public void cadastroGame(ModelGame game){
+		GameDAO gameDAO= new GameDAO();
+		try {
+			gameDAO.inserir(game);
+		} catch (SQLException e) {
+			System.out.println("Erro" + e.getMessage());
+		}
+	
+	}
+
+}

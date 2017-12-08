@@ -1,0 +1,58 @@
+package Model;
+
+public class ModelCliente {
+	private String CPF;
+	private String nome;
+	private String tel;
+	private String email;	
+	private String login;
+	private int idCliente;
+	
+
+	
+	public int getIdCliente() {
+		return idCliente;
+	}
+	public void setIdCliente(int idCliente) {
+		this.idCliente = idCliente;
+	}
+	private String senha;
+	
+	public String getCPF() {
+		return CPF;
+	}
+	public void setCPF(String CPF) {
+		this.CPF = CPF;
+	}
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	public String getTel() {
+		return tel;
+	}
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getLogin() {
+		return login;
+	}
+	public void setLogin(String login) {
+		this.login = login;
+	}
+	public String getSenha() {
+		return senha;
+	}
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	
+}
